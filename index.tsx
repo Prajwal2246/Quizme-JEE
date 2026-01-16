@@ -1,15 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { createRoot } from "react-dom/client";
-import { Navbar } from "./components/Navbar";
-import { Hero } from "./components/Hero";
-import { Features } from "./components/Features";
-import { SubjectCard } from "./components/SubjectCard";
-import { QuizInterface } from "./components/QuizInterface";
-import { ResultsView } from "./components/ResultsView";
-import { Footer } from "./components/Footer";
+import { Navbar } from "./src/components/Navbar";
+import { Hero } from "./src/components/Hero";
+import { Features } from "./src/components/Features";
+import { SubjectCard } from "./src/components/SubjectCard";
+import { QuizInterface } from "./src/components/QuizInterface";
+import { ResultsView } from "./src/components/ResultsView";
+import { Footer } from "./src/components/Footer";
 import { SUBJECTS } from "./constants";
 import { AppView, SubjectData, QuizResult } from "./types";
 import { ArrowRight, Star } from "lucide-react";
+import { onAuthStateChanged, User } from "firebase/auth";
+import { auth } from "./src/firebase";
+import { BrowserRouter, useNavigate } from "react-router-dom";
 
 const App = () => {
   const [currentView, setCurrentView] = useState<AppView>(AppView.HOME);
@@ -17,11 +20,34 @@ const App = () => {
     null
   );
   const [lastResult, setLastResult] = useState<QuizResult | null>(null);
+  const navigate= useNavigate();
+
+  /* login render dashboard */
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currUser) => {
+      setUser(currUser);
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#0B0F19] flex items-center justify-center text-white">
+        Checking Login...
+      </div>
+    );
+  }
 
   const handleStartQuiz = (subject: SubjectData) => {
     setSelectedSubject(subject);
     setCurrentView(AppView.QUIZ);
     window.scrollTo(0, 0);
+    navigate(`/quiz/${subject.id}`, { state: { subject } });
   };
 
   const handleQuizComplete = (result: QuizResult) => {
@@ -66,7 +92,9 @@ const App = () => {
 
   return (
     <div className="min-h-screen bg-[#0B0F19] font-sans selection:bg-indigo-500/30 selection:text-indigo-200">
-      <Navbar onLogoClick={handleReturnHome} />
+      <Navbar onLogoClick={handleReturnHome} user={user} onClick={
+        navigate("/")
+      } />
 
       {/* Hero Section */}
       <div className="relative bg-[#0f1115] overflow-hidden">
@@ -211,4 +239,8 @@ const App = () => {
 };
 
 const root = createRoot(document.getElementById("root")!);
-root.render(<App />);
+root.render(
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>
+);

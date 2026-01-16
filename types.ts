@@ -26,4 +26,5 @@ export enum AppView {
   HOME = 'HOME',
   QUIZ = 'QUIZ',
   RESULTS = 'RESULTS',
+  SUBSCRIBE="subscribe",
 }
