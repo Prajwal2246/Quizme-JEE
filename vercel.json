@@ -13,7 +13,7 @@
   "rewrites": [
     {
       "source": "/api/quiz/(.*)",
-      "destination": "/backend/index.js"
+      "destination": "/backend/server.js" 
     },
     {
       "source": "/(.*)",
