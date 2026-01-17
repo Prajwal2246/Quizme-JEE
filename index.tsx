@@ -58,7 +58,7 @@ const App = () => {
     setIsGenerating(true);
 
     try {
-      const response = await fetch("http://localhost:5001/api/quiz/generate", {
+      const response = await fetch("/api/quiz/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(config),
