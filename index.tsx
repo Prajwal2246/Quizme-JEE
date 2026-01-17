@@ -56,6 +56,7 @@ const App = () => {
   const handleStartCustomQuiz = async (config: any) => {
     setIsModalOpen(false);
     setIsGenerating(true);
+    // const name=
 
     try {
       const response = await fetch("/api/quiz/generate", {
