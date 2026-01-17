@@ -12,6 +12,12 @@ import {
 interface QuizFormModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onStart: (config: {
+    topic: string;
+    numQuestions: number;
+    difficulty: string;
+    timerEnabled: boolean;
+  }) => void;
 }
 
 const DIFFICULTIES = [
@@ -46,7 +52,11 @@ const SUGGESTED_TOPICS = [
   "Oscillations and Waves",
 ];
 
-const QuizFormModal: React.FC<QuizFormModalProps> = ({ isOpen, onClose }) => {
+const QuizFormModal: React.FC<QuizFormModalProps> = ({
+  isOpen,
+  onClose,
+  onStart,
+}) => {
   const [topic, setTopic] = useState("");
   const [numQuestions, setNumQuestions] = useState(10);
   const [difficulty, setDifficulty] = useState("medium");
@@ -70,7 +80,8 @@ const QuizFormModal: React.FC<QuizFormModalProps> = ({ isOpen, onClose }) => {
     else setNumError("");
   };
 
-  const handleStart = () => {
+  const handleStart = (e:React.FormEvent) => {
+    e.preventDefault();
     // Final check before submission
     const isTopicValid = topic.trim().length > 0;
     const isNumValid = numQuestions >= 5 && numQuestions <= 50;
@@ -79,8 +90,13 @@ const QuizFormModal: React.FC<QuizFormModalProps> = ({ isOpen, onClose }) => {
     if (!isNumValid) setNumError("Check question count (5-50)");
 
     if (isTopicValid && isNumValid) {
-      console.log({ topic, numQuestions, difficulty, timerEnabled });
-      onClose();
+      onStart({
+        topic,
+        numQuestions,
+        difficulty,
+        timerEnabled,
+      });
+      setTopic("")
     }
   };
 

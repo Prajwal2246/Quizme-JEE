@@ -2,6 +2,8 @@ export interface Question {
   q: string;
   options: string[];
   correct: number;
+  feedback:string;
+  fact:string;
 }
 
 export interface SubjectData {

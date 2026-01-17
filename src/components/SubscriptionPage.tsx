@@ -85,16 +85,9 @@ const SubscriptionPage = () => {
   };
 
   return (
-    <div className="h-screen overflow-auto scrollbar-hide scroll bg-gradient-to-br from-slate-950 via-blue-950 to-slate-950">
+    <div className=" h-screen p-12 overflow-auto scrollbar-hide scroll bg-gradient-to-br from-slate-950 via-blue-950 to-slate-950">
       {/* Header */}
-      <div className="flex items-center gap-3 cursor-pointer group">
-        <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/20 transform group-hover:scale-105 transition-transform duration-200">
-          <Brain className="w-6 h-6 text-white" />
-        </div>
-        <h1 className="text-xl font-bold tracking-tight text-white transition-colors">
-          JEE Quiz Master
-        </h1>
-      </div>
+     
 
       {/* Main Content */}
       <main className="max-w-6xl mx-auto px-6 py-8">
