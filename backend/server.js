@@ -19,7 +19,7 @@ app.use(express.json());
 app.use("/api/quiz", quizRoutes);
 
 const PORT = process.env.PORT || 5001;
-if (process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV === "production") {
   app.listen(PORT, () => console.log("server running", { PORT }));
 }
 
