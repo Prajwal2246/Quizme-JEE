@@ -17,7 +17,7 @@ router.post("/save-history", async (req, res) => {
       timeSpent,
       difficulty,
     });
-    await newHistory.save();
+    await newHistory.save()
 
     res.status(200).json({ message: "History saved successfully!" });
   } catch (error) {
